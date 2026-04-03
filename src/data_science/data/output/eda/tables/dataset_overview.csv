@@ -1,0 +1,5 @@
+metric,value
+number_of_rows,192
+number_of_columns,37
+number_of_numeric_columns,17
+number_of_categorical_columns,20

@@ -1,0 +1,15 @@
+=== MODEL PREPARATION SUMMARY ===
+
+Full labeled dataset shape: (192, 25)
+Scenario A dataset shape: (192, 21)
+Scenario B dataset shape: (192, 19)
+
+Scenario A feature count (without target): 20
+Scenario B feature count (without target): 18
+
+Class balance:
+ academic_risk  count  percent
+             0    163     84.9
+             1     29     15.1
+
+No unexpected values remain after harmonization.
