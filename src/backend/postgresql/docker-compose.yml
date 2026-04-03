@@ -1,0 +1,15 @@
+services:
+  postgresql:
+    image: postgres:14
+    container_name: postgresql
+    restart: always
+    environment:
+      POSTGRES_USER: madiyar
+      POSTGRES_PASSWORD: Madiyar2001!
+      POSTGRES_DB: model_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+volumes:
+  db_data:

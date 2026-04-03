@@ -1,0 +1,4 @@
+advisor_id,role,username,password,educational_program,course_year
+1,advisor,advisor@astanaitedu.kz,advisorpass,1,1
+2,advisor,advisor_2,advisor_2,2,2
+3,advisor,advisor_3,advisor_3,3,3

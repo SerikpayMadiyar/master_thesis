@@ -1,0 +1,6 @@
+teacher_id,role,username,password,group_id
+1,teacher,teacher@astanaitedu.kz,teacherpass,1
+2,teacher,teacher_2,teacher_2,2
+3,teacher,teacher_3,teacher_3,3
+4,teacher,teacher_4,teacher_4,4
+5,teacher,teacher_5,teacher_5,5

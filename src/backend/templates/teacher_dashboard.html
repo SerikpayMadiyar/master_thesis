@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Teacher Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+  <div class="d-flex justify-content-between mb-3">
+    <h3>Teacher - View Groups</h3>
+    <div>
+      <a href="/logout" class="btn btn-outline-secondary">Logout</a>
+    </div>
+  </div>
+
+  <div class="row">
+    {% for g in groups %}
+    <div class="col-md-4">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5>{{ g.name }}</h5>
+          <p>Students: <b>{{ g.count }}</b></p>
+          <p>High Risk Rate: <b>{{ g.risk_pct }}%</b></p>
+          <a href="/teacher/group/{{ g.name }}" class="btn btn-primary btn-sm">Open Group</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</body>
+</html>

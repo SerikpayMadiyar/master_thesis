@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Monitor Student</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .layout {
+      display: grid;
+      grid-template-columns: 320px 1fr 360px;
+      gap: 18px;
+      align-items: start;
+      padding: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+    }
+
+    .chart-box {
+      height: 260px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    .risk-panel {
+      border-left: 1px solid #e9ecef;
+      padding-left: 16px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="d-flex justify-content-between align-items-center p-3">
+    <h4>Monitoring — {{ student.name }}</h4>
+    <div class="btn-row">
+      <a href="/teacher/form/{{ student.student_id }}" class="btn btn-primary btn-sm">Fill Survey</a>
+      <a href="/report/student/{{ student.student_id }}" class="btn btn-success btn-sm">Generate Report</a>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- ЛЕВО: профиль -->
+    <div class="card">
+      <h6>Profile</h6>
+      <!-- <p><b>Group:</b> {{ student.education_program }}</p> -->
+      <p><b>Degree:</b> {{ student.degree }}</p>
+      <p><b>Favorite Subject:</b> {{ student.subject }}</p>
+      <hr>
+      <p><b>Self-study hours:</b> {{ student.independent_study_hours }}</p>
+      <p><b>Sleep hours:</b> {{ student.sleep_hours }}</p>
+      <p><b>Motivation:</b> {{ student.motivation }}</p>
+      <p><b>Job:</b> {{ student.job }}</p>
+      <p><b>Study Hours:</b> {{ student.self_study_hours }}</p>
+      <p><b>Stress:</b> {{ student.stress }}</p>
+      <p><b>Communication:</b> {{ student.communication }}</p>
+      <p><b>Teacher Quality:</b> {{ student.teacher_quality }}</p>
+      <p><b>Using University Resources:</b> {{ student.use_resources }}</p>
+    </div>
+
+    <!-- СРЕДИНА: графики -->
+    <div class="card">
+      <h6>Trends</h6>
+      <div class="chart-box mb-3"><canvas id="gpaTrend"></canvas></div>
+      <div class="chart-box"><canvas id="attendanceTrend"></canvas></div>
+    </div>
+
+    <!-- ПРАВО: риски -->
+    <div class="card risk-panel">
+      <div>
+        <div style="font-size:13px;color:#666">General risk</div>
+        <div
+          style="font-size:36px;font-weight:700; color: {% if general_risk.percent>=66 %} #b71c1c {% elif general_risk.percent>=33 %} #ff9800 {% else %} #2e7d32 {% endif %};">
+          {{ general_risk.percent }}%
+        </div>
+        <div class="small text-muted">{{ general_risk.label }}</div>
+        <div class="mt-2">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar"
+              style="width: {{ general_risk.percent }}%; background: {% if general_risk.percent>=66 %} #b71c1c {% elif general_risk.percent>=33 %} #ff9800 {% else %} #2e7d32 {% endif %};">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div>
+        <h6>Risks</h6>
+        {% for d, info in domain_risks.items() %}
+        <div style="margin-top:8px;">
+          <div class="d-flex justify-content-between"><small><b>{{ d }}</b></small><small class="text-muted">{{
+              info.percent }}% — {{ info.label }}</small></div>
+          <div class="progress" style="height:10px;">
+            <div class="progress-bar" role="progressbar"
+              style="width: {{ info.percent }}%; background: {% if info.percent>=66 %} #b71c1c {% elif info.percent>=33 %} #ff9800 {% else %} #2e7d32 {% endif %};">
+            </div>
+          </div>
+          <div class="small text-muted">{{ info.hint }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const gpaTrend = {{ trend.gpa_trend }};
+    const attendanceTrend = {{ trend.attendance_trend }};
+    const labels = ["-5", "-4", "-3", "-2", "-1", "now"];
+
+    new Chart(document.getElementById('gpaTrend'), {
+      type: 'line',
+      data: { labels, datasets: [{ label: 'GPA', data: gpaTrend, tension: 0.4, borderColor: '#0d6efd' }] },
+      options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 4 } } }
+    });
+
+    new Chart(document.getElementById('attendanceTrend'), {
+      type: 'bar',
+      data: { labels, datasets: [{ label: 'Attendance', data: attendanceTrend, backgroundColor: '#198754' }] },
+      options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
+    });
+  </script>
+</body>
+
+</html>

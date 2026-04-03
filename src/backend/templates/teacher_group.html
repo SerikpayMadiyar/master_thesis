@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Group — {{ group_name }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container py-4">
+  <div class="d-flex justify-content-between mb-3">
+    <h4>Group: {{ group_name }}</h4>
+    <div>
+      <a href="/teacher/dashboard" class="btn btn-outline-secondary btn-sm">Back</a>
+      <a href="/logout" class="btn btn-outline-secondary btn-sm">Logout</a>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr><th>Fullname</th><th>GPA</th><th>Risk</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      {% for s in members %}
+      <tr>
+        <td>{{ s.name }}</td>
+        <td>{{ s.gpa }}</td>
+        <td>{{ s.risk_level }}</td>
+        <td>
+          <a href="/teacher/student/{{ s.student_id }}" class="btn btn-sm btn-info">Moniroting</a>
+          <a href="/teacher/form/{{ s.student_id }}" class="btn btn-sm btn-primary">Fill Survey</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
